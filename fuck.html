@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue.js</title>
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div id="xxx">
+        <input type="text" v-model="Fill">
+        <button @click="add">提交</button>
+        <ul>
+            <Packagelist @delete="deletelistfu" :context="item" :index="index" v-for="(item,index) in list">
+
+            </Packagelist>
+        </ul>
+    </div>
+    <script>
+        var Packagelist = {
+            props: ['context', 'index'],
+            template: "<li @click='deletelist'>{{context}}</li>",
+            methods: {
+                deletelist() {
+                    this.$emit('delete', this.index)
+                }
+            }
+        }
+        var App = new Vue({
+            el: '#xxx',
+            data: {
+                list: [],
+                Fill: ''
+            },
+            components: {
+                Packagelist: Packagelist
+            },
+            methods: {
+                add: function () {
+                    this.list.push(this.Fill)
+                    this.Fill = ''
+                },
+                deletelistfu: function (index) {
+                    this.list.splice(index, 1)
+                }
+            }
+        })
+
+    </script>
+    <style>
+        ul>li {
+            list-style: none;
+        }
+    </style>
+</body>
+
+</html>
